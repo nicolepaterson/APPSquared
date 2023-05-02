@@ -10,20 +10,20 @@ This pipeline generates biochemical analysis from HA and NA proteins relative to
 		bash run_H1_BCP.sh -r <RMSD ref> -d <directory> -n <analysis_name>
 ```
 
-`usage for running H3 subtype analysis:`
+```usage for running H3 subtype analysis:`
 `
 bash run_H3_BCP.sh -r <RMSD ref> -d <directory> -n <analysis_name>
-`
-`usage for running N2 subtype analysis:`
+```
+```usage for running N2 subtype analysis:`
 `
 bash run_N2_BCP.sh -r <RMSD ref> -d <directory> -n <analysis_name>
-`
+```
 
-`optional flags
+```optional flags
 -q turn off antibody dockings
 -p turn off nearest neighbor calls 
 -o turn off rosetta energy scores
-`
+```
 
 `Set up getcontacts library git clone https://github.com/getcontacts/getcontacts.git 
 echo "export PATH=`pwd`/getcontacts:\$PATH" >> ~/.bashrc source ~/.bashrc`
