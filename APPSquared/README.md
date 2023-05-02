@@ -11,11 +11,9 @@ This pipeline generates biochemical analysis from HA and NA proteins relative to
 ```
 
 ```usage for running H3 subtype analysis:
-`
 bash run_H3_BCP.sh -r <RMSD ref> -d <directory> -n <analysis_name>
 ```
-```usage for running N2 subtype analysis:`
-`
+```usage for running N2 subtype analysis:
 bash run_N2_BCP.sh -r <RMSD ref> -d <directory> -n <analysis_name>
 ```
 
