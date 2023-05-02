@@ -1,7 +1,7 @@
 # APPSquared 
 ## Antigenic Prediction from Protein Sequences Pipeline 
 ![APPSquared]
-(https://github.com/nicolepaterson/APPSquared)
+(https://github.com/nicolepaterson/APPSquared/blob/main/pipeline.png)
 
 This pipeline generates biochemical analysis from HA and NA proteins relative to a reference vaccine strain
 
