@@ -24,9 +24,9 @@ This pipeline generates biochemical analysis from HA and NA proteins relative to
 ```
 
 ```
-Set up getcontacts library 
+Set up getcontacts library:
 
-		git clone https://github.com/getcontacts/getcontacts.git 
+git clone https://github.com/getcontacts/getcontacts.git 
 echo "export PATH=`pwd`/getcontacts:\$PATH" >> ~/.bashrc source ~/.bashrc
 ```
 
