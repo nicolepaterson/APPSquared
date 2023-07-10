@@ -11,7 +11,7 @@ requires = [
 "seaborn==0.12.2",
 "cython==0.29.32",
 "ticc==0.1.4"
-"vmd-python>=3.0.6"
+"-c conda-forge vmd-python"
 ]
 build-backend = "setuptools.build_meta"
 [project]
