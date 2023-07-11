@@ -27,7 +27,7 @@ channels = [
     'conda-forge', 'defaults']
 [tool.conda-lock.dependencies]
 requires = ["salilab dssp==3.0.0"]
-vmd = "vmd-python"
+vmd-python = "3.0.6"
 build-backend = "setuptools.build_meta"
 [project]
 name = "APPSquared"
