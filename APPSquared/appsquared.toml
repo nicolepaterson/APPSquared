@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "appsquared"
+name = "APPSquared"
 version = "0.0.1"
 description = "Antigenic Prediction for Protein Sequences Pipeline"
 authors = ["nicole.paterson <qxa4@cdc.gov>"]
