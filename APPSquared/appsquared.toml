@@ -1,18 +1,33 @@
+[tool.poetry]
+name = "appsquared"
+version = "0.0.1"
+description = "Antigenic Prediction for Protein Sequences Pipeline"
+authors = ["nicole.paterson <qxa4@cdc.gov>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = "^1.22.4"
+pandas = "1.5.3"
+setuptools = "^61.0"
+biopython = "1.78"
+scikit-learn = "1.2.2"
+scipy = "1.24.3"
+matplotlib = "3.6.2"
+seaborn = "0.12.2"
+cython = "0.29.32"
+ticc = "0.1.4"
+
 [build-system]
-requires = [
-"setuptools>=61.0",
-"numpy==1.23.5",
-"pandas==1.5.3",
-"biopython==1.78",
-"dssp==3.0.0",
-"scikit-learn==1.2.2",
-"scipy==1.10.1",
-"matplotlib==3.6.2",
-"seaborn==0.12.2",
-"cython==0.29.32",
-"ticc==0.1.4"
-"vmd-python"
-]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.conda-lock]
+channels = [
+    'conda-forge', 'defaults']
+[tool.conda-lock.dependencies]
+requires = ["salilab dssp==3.0.0"]
+vmd = "vmd-python"
 build-backend = "setuptools.build_meta"
 [project]
 name = "APPSquared"
@@ -22,7 +37,7 @@ authors = [
 ]
 description = "A Pipeline to Characterize Influenza Antigenic Proteins"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
