@@ -16,10 +16,6 @@ This pipeline generates biochemical analysis from HA and NA proteins relative to
 		bash run_N2_BCP.sh -r <RMSD ref> -d <directory> -n <analysis_name>
 ```
 
-```optional flags
--q turn off antibody dockings
--p turn off nearest neighbor calls 
--o turn off rosetta energy scores
 ```
 
 ```
