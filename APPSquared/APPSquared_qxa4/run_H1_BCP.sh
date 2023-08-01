@@ -16,14 +16,8 @@ do
                 n)
                         name=$OPTARG
                         ;;
-                o)
-                        name=$rosetta
-                        ;;
-                p)
-                        name=$nearest_neighbor
-                        ;;
-                q)
-                        name=$antibody_dock_off
+                v)
+                        variant_hash=$OPTARG
                         ;;
         esac
 done
@@ -31,24 +25,23 @@ done
 BCPhome=/scicomp/groups/OID/NCIRD/ID/VSDB/GAT
 #schrodingerhome=/scicomp/groups/OID/NCIRD/ID/VSDB/GAT/schrodinger
 #ml conda
-#make the directory for storing the data
+#make the output directory
 mkdir $name
 #cd $directory/$name
 
 #Runs AlphaFold on sequence fasta file
 #run Rosetta energy score for ddG
-if [ -e "-o" ]; then
 #bash run_rosetta_scores.sh -d $reference -n $name
-    for file in $directory/*.pdb
-    do
-        bash run_rosetta_scores.sh -d $directory -n $name
-    done
-fi
+for file in $directory/*.pdb
+do
+    bash run_rosetta_scores.sh -d $directory -n $name
+done
+
 #Computes the glycosylation distances for each site from pdb file
 ml conda
 conda activate glyc
-bash run_glyc.sh -i $directory
-bash run_glyc_diff.sh -i $directory -r $reference
+bash run_glyc.sh -i $directory -v $variant_hash -s H1 -p HA
+#bash run_glyc_diff.sh -i $directory -r $reference
 #python glyc_score.py -i $directory -r $reference
 
 conda activate getcontacts
@@ -99,18 +92,18 @@ do
 done
 ml schrodinger
 #if [ -e "-q" ]; then
-for file in $directory/*.pdb
-do
-    filename=$(basename $file);
-    if [ ! -f  $filename.mae ] ; then
-        run pdbconvert -ipdb $filename -omae $directory/$name/$filename.mae
-        while ! [ -f $directory/$name/$filename.mae ]
-        do
-            sleep 10
-        done
-        run utilities/prepwizard $directory/$name/$filename.mae $directory/$name/$filename.mae
-    fi
-done
+#for file in $directory/*.pdb
+#do
+#    filename=$(basename $file);
+#    if [ ! -f  $filename.mae ] ; then
+#        run pdbconvert -ipdb $filename -omae $directory/$name/$filename.mae
+#        while ! [ -f $directory/$name/$filename.mae ]
+#        do
+#            sleep 10
+#        done
+#        run utilities/prepwizard $directory/$name/$filename.mae $directory/$name/$filename.mae
+#    fi
+#done
 #Generates a control file for running grid file for Glide
 while ! [ -f $directory/$name/$filename.mae ]
     do
