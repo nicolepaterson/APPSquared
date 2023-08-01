@@ -4,7 +4,7 @@
 
 
 usage() { echo "Usage: $0 -r H3 reference structure for rmsd in .mae format, -d output directory, -n name of new output directory "; exit 1; }
-while getopts ":r:d:n:" arg; 
+while getopts ":r:d:n:v:s:" arg; 
 do
         case "${arg}" in
                 r)
@@ -16,14 +16,8 @@ do
                 n)
                         name=$OPTARG
                         ;;
-                o)
-                        name=$rosetta
-                        ;;
-                p)
-                        name=$nearest_neighbor
-                        ;;
-                q)
-                        name=$antibody_dock_off
+                v)
+                        name=$OPTARG
                         ;;
         esac
 done
@@ -31,7 +25,7 @@ done
 BCPhome=/scicomp/groups/OID/NCIRD/ID/VSDB/GAT
 #schrodingerhome=/scicomp/groups/OID/NCIRD/ID/VSDB/GAT/schrodinger
 
-#ml conda
+ml conda
 #make the directory for storing the data
 mkdir $directory/$name
 
@@ -47,7 +41,7 @@ fi
 #Computes the glycosylation distances for each site from pdb file
 ml conda
     conda activate glyc
-    bash run_glyc.sh -i $directory
+    bash run_glyc.sh -i $directory -v $variant_hash -s H3 -p HA
 #bash run_glyc_diff.sh -i $directory -r $reference
 #python glyc_score.py -i $directory -r $reference
 
