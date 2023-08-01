@@ -21,7 +21,7 @@ def get_parser():
         help="Influenza virus protein subunit (e.g., HA1, HA1, etc.)")
 
     parser.add_argument("-s", "--subtype", required=False,
-        help="Lineage-specific protein segment (e.g., H1, H3, N1, N2, etc.)")
+        help="Lineage-specific protein segment (e.g., H1, H3, NA, N1, N2, etc.)")
     
     parser.add_argument("-v", "--variant_hash", required=False,
         help="Alphanumeric character STRING linked to a specific amino acid sequence")
