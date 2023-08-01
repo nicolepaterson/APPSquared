@@ -1,4 +1,4 @@
-v# APPSquared 
+# APPSquared 
 ## Antigenic Prediction from Protein Sequences Pipeline 
 ![APPSquared](https://github.com/nicolepaterson/APPSquared/blob/main/pipeline.png)
 
