@@ -19,6 +19,10 @@ This pipeline generates biochemical analysis from HA and NA proteins relative to
 		bash run_Bvic_BCP.sh -r <RMSD ref> -d <directory> -n <analysis_name> -v <variant hash>
 ```
 
+necessary environments: 
+glyc.yaml
+getcontacts.yaml
+
 ```
 Set up getcontacts library:
 
