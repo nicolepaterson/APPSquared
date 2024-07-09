@@ -9,12 +9,15 @@ usage for running on scicomp in biolinux:
 ```
 cd /path/to/pdb/files
 bash /path/to/repo/BCH relax
+``` 
 ```
-```
+cd /path/to/pdb/files
 bash /path/to/repo/BCH tables
 ```
 ```
-/path/to/repo/BCH upload
+cd /path/to/pdb/files
+bash /path/to/repo/BCH upload
+```
 ```
 set up necessary conda  environments: 
 conda env create --name glyc --file=glyc.yaml
