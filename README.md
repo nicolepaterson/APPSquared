@@ -10,7 +10,9 @@ usage for running on scicomp in biolinux:
 cd /path/to/pdb/files
 bash /path/to/repo/BCH relax
 ```
+```
 bash /path/to/repo/BCH tables
+```
 ```
 /path/to/repo/BCH upload
 ```
