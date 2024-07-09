@@ -3,7 +3,8 @@
 ![APPSquared](https://github.com/nicolepaterson/APPSquared/blob/main/pipeline.png)
 
 
-```usage for running on scicomp in biolinux:
+```
+usage for running on scicomp in biolinux:
 ```
 cd /path/to/pdb/files
 bash /path/to/repo/BCH relax
