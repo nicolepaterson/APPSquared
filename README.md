@@ -3,9 +3,9 @@
 ![APPSquared](https://github.com/nicolepaterson/APPSquared/blob/main/pipeline.png)
 
 
-```
+
 usage for running on scicomp in biolinux:
-```
+
 ```
 cd /path/to/pdb/files
 bash /path/to/repo/BCH relax
@@ -18,14 +18,15 @@ bash /path/to/repo/BCH tables
 cd /path/to/pdb/files
 bash /path/to/repo/BCH upload
 ```
-```
+
 set up necessary conda  environments: 
+```
 conda env create --name glyc --file=glyc.yaml
 conda env create --name getcontacts --file=getcontacts.yaml
 ```
-```
-Set up getcontacts library:
 
+set up getcontacts library:
+```
 git clone https://github.com/getcontacts/getcontacts.git 
 echo "export PATH=`pwd`/getcontacts:\$PATH" >> ~/.bashrc source ~/.bashrc
 ```
