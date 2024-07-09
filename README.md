@@ -3,19 +3,12 @@
 ![APPSquared](https://github.com/nicolepaterson/APPSquared/blob/main/pipeline.png)
 
 
-```usage for running H1 subtype analysis:
-		bash run_H1_BCP.sh -r <RMSD ref> -d <directory> -n <analysis_name> -v <variant hash>
+```usage for running on scicomp in biolinux:
 ```
-
-```usage for running H3 subtype analysis:
-		bash run_H3_BCP.sh -r <RMSD ref> -d <directory> -n <analysis_name> -v <variant hash>
-```
-```usage for running N2 subtype analysis:
-		bash run_N2_BCP.sh -r <RMSD ref> -d <directory> -n <analysis_name> -v <variant hash>
-```
-```usage for running Bvic subtype analysis:
-		bash run_Bvic_BCP.sh -r <RMSD ref> -d <directory> -n <analysis_name> -v <variant hash>
-```
+cd /path/to/pdb/files
+bash /path/to/repo/BCH relax
+bash /path/to/repo/BCH tables
+/path/to/repo/BCH upload
 ```
 set up necessary conda  environments: 
 conda env create --name glyc --file=glyc.yaml
