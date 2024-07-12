@@ -12,8 +12,8 @@ This pipeline was developed to generate datasets that include structural informa
 *and* variants that are either not available at CDC or unable to be cultured in the laboratory.
 
 This pipeline relies on the following open source programs:
-Rosetta <https://www.rosettacommons.org/software>
-Getcontacts <https://github.com/getcontacts/getcontacts>
+- Rosetta <https://www.rosettacommons.org/software>
+- Getcontacts <https://github.com/getcontacts/getcontacts>
 
 Bespoke CDC code written by Dr. Nicholas Kovacs and Dr. Brian Mann.
 - Structural distance calculator for generating fitness landscapes <https://git.biotech.cdc.gov/hxa6/fit_landscape>
