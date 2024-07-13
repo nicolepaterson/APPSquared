@@ -4,33 +4,27 @@
 
 Heightened rates of evolution are observed at host:pathogen interfaces due to the high stakes of the interaction.
 This is referred to in the field colloquially as evolutionary "molecular arms races" between a pathogen and the host it infects.
-For influenza, the key players in this interaction are the influenza hemagglutinin receptor, host sialic acid isomers on the cell surface 
-(which for some exhibit species-specific tropism), and antibodies whose binding strength, specificity and proximity to the receptor binding 
-site are important determinants for how effectively the host neutralizes influenza. 
-For this reason, mutations in the influenza receptor are closesly monitored for public health purposes to ensure that there hasn't been
-sufficient mutation in the influenza hemagglutinin to result in lack of recognition by host antibodies, a phenomenon known as 
-antigenic drift.
-The best systematic method of ranking antigenic drift has traditionally been antigenic cartography, which charts the mutations seen 
-across a conceptual topology where distance represents the level of antigenic drift between isolates. This method is not particularly 
-agile or simple to perform, and other methods for ranking antigenic drift have been explored recently with the rise and ubiquity of machine learning.
+For influenza, the key players in this interaction are the influenza hemagglutinin receptor, host sialic acid isomers on the cell surface (which for some exhibit species-specific tropism), and antibodies whose binding strength, specificity and proximity to the receptor binding site are important determinants for how effectively the host neutralizes influenza. 
+For this reason, mutations in the influenza receptor are closesly monitored for public health purposes to ensure that there hasn't been sufficient mutation in the influenza hemagglutinin to result in lack of recognition by host antibodies, a phenomenon known as antigenic drift.
+The best systematic method of ranking antigenic drift has traditionally been antigenic cartography, which charts the mutations seen across a conceptual topology where distance represents the level of antigenic drift between isolates. This method is not particularly agile or simple to perform nor can it predict future phenotypes, and other methods for ranking antigenic drift have been explored recently with the rise and ubiquity of machine learning.
 
 This pipeline was developed to generate datasets that include structural information from high frequency variant sequences 
 *and* variants that are either not available at CDC or unable to be cultured in the laboratory.
 
 This pipeline relies on the following open source programs:
-Rosetta
-Getcontacts
+- Rosetta <https://www.rosettacommons.org/software>
+- Getcontacts <https://github.com/getcontacts/getcontacts>
 
 Bespoke CDC code written by Dr. Nicholas Kovacs and Dr. Brian Mann.
-Structural distance calculator
-Glycosylation distance calculator
+- Structural distance calculator for generating fitness landscapes <https://git.biotech.cdc.gov/hxa6/fit_landscape>
+- Glycosylation distance calculator
 
-This pipeline generates biophysical information on each structure and includes the following:
-Rosetta Energy Score (a measure of relative stability of protein in question)
-Root mean square difference - RMS (a scoring of the deviation in alignment between the protein and a reference structure)
+This pipeline generates biophysical information on each structure and includes the following, in addition to more granular features :
+- Rosetta Energy Scores, total and per-residue (a measure of relative stability of protein in question)
+- Root mean square difference - RMS (a scoring of the deviation in alignment between the protein and a reference structure)
+- Relative surface accessibility per residue
 
-
-
+To generate the structural distance values, please refer to the repo cited or contact the maintainer.
 
 usage for running on scicomp in biolinux:
 
