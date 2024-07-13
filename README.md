@@ -17,11 +17,12 @@ This pipeline relies on the following open source programs:
 
 Bespoke CDC code written by Dr. Nicholas Kovacs and Dr. Brian Mann.
 - Structural distance calculator for generating fitness landscapes <https://git.biotech.cdc.gov/hxa6/fit_landscape>
-- Glycosylation distance calculator 
+- Glycosylation distance calculator
 
 This pipeline generates biophysical information on each structure and includes the following, in addition to more granular features :
-- Rosetta Energy Score (a measure of relative stability of protein in question)
+- Rosetta Energy Scores, total and per-residue (a measure of relative stability of protein in question)
 - Root mean square difference - RMS (a scoring of the deviation in alignment between the protein and a reference structure)
+- Relative surface accessibility per residue
 
 To generate the structural distance values, please refer to the repo cited or contact the maintainer.
 
