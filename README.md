@@ -42,6 +42,7 @@ bash /path/to/repo/BCH upload
 
 set up necessary conda  environments: 
 ```
+conda env create --name appsquared --file=appsquared.yaml
 conda env create --name glyc --file=glyc.yaml
 conda env create --name getcontacts --file=getcontacts.yaml
 ```
