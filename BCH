@@ -9,7 +9,7 @@ set -o pipefail
 timestamp=$(date +%Y-%m-%d)
 echo $timestamp
 
-#define commands
+#define args
 #"./BCH relax" runs the relax pipeline, must be run first 
 #"./BCH tables" generates the data tables
 #"./BCH upload" sends table data to cdp and refreshes the relaxed_isolate_name table
@@ -37,6 +37,23 @@ if [ ! -d "$unrelaxed_dir" ]; then
 fi
 timestamp=$(date +%Y-%m-%d)
 
+function move_files {
+for file in $home/relaxed*.pdb
+do
+    cp $file $relaxed_dir
+done
+
+for file in $home/*.pdb
+do
+    cp $file $unrelaxed_dir
+done
+
+for file in $unrelaxed_dir/relaxed_*.pdb
+do
+    rm $file
+done
+}
+
 function run_pdb_parse {
 for file in $unrelaxed_dir/*.pdb
 do
@@ -51,17 +68,18 @@ function run_relax {
 for file in $unrelaxed_dir/*.pdb
 do
     filename=$(basename "$file")
-    #module load rosetta/3.13-cluster
-    relax.default.linuxgccrelease -relax:minimize_bondlength_subset=3 -relax:script "InterfaceRelax2019" -in:file:s $file --out:pdb -out:prefix relaxed_quick_ -out:path:pdb $out_dir -relax:quick
-    #mpirun relax.cxx11threadmpiserialization.linuxgccrelease -overwrite -quick -ex1 -ex2 -gpu true -device 0 -multithreading true -total_threads 16 -relax:minimize_bondlength_subset=3 -in:file:s $file --out:pdb -out:prefix relaxed_ -out:path:pdb $relaxed_dir -relax:fast
+    module load rosetta/3.13-cluster
+    #mpirun -np 2 -nooversubscribe relax.default.linuxgccrelease -quick -ex1 -ex2 -gpu true -relax:minimize_bondlength_subset=3 -in:file:s $file --out:pdb -out:prefix relaxed_ -out:path:pdb $pdb_dir -relax:fast
+    mpirun -np 3 -nooversubscribe relax.cxx11threadmpiserialization.linuxgccrelease -overwrite -quick -ex1 -ex2 -gpu true -device 0 -multithreading true -total_threads 8 -relax:minimize_bondlength_subset=3 -in:file:s $file --out:pdb -out:prefix relaxed_ -out:path:pdb $relaxed_dir -relax:fast
 done
 }
 #run Rosetta energy score for ddG, prep file for cdp upload
 function run_rosetta { 
 for file in $relaxed_dir/relaxed_*.pdb
+#for file in $home/relaxed_*.pdb
 do
     filename=$(basename "$file" .pdb)
-    #module load rosetta/3.13-cluster
+    module load rosetta/3.13-cluster
     timestamp=$(date +%Y-%m-%d)
     score_jd2.default.linuxgccrelease -simple_metrics true -renumber_pdb -in:ignore_unrecognized_res -in:file:s $file -in:file:native $ref_path -out:file:scorefile $date_output/$filename.features.txt
     #mpirun score_jd2.mpi.linuxgccrelease -simple_metrics true -multithreading true -total_threads 4 -renumber_pdb -in:ignore_unrecognized_res -in:file:s $file -in:file:native $ref_path -out:file:scorefile $gwa_output/$filename.features.txt
@@ -80,7 +98,8 @@ done
 }
 #computes the glycosylation distances for each site from pdb file
 function run_glyc_dist { 
-for file in $out_p/*.pdb
+for file in $relaxed_dir/relaxed_*.pdb
+#for file in $home/relaxed_*.pdb
 do
     filename=$(basename $file)
     name=$(basename $file .pdb)
@@ -95,13 +114,14 @@ do
 done
 }
 function run_get_contacts {
-for file in $out_p/*.pdb
+for file in $relaxed_dir/relaxed_*.pdb
+#for file in $home/relaxed_*.pdb
 do
     source ~/miniconda3/etc/profile.d/conda.sh
     source ~/miniconda3/bin/activate --stack ~/.conda/envs/getcontacts
     filename=$(basename $file)
     name=$(basename $file .pdb)
-    python get_static_contacts.py --structure $out_p/$filename --output $date_output/$variant_hash.static_contacts.csv --itypes all
+    python get_static_contacts.py --structure $filename --output $date_output/$name.static_contacts.csv --itypes all
 done
 }
 #cleans up the getcontacts file for upload to CDP. Needs to be updated to parquet and moved to clean_up_for_tables
@@ -117,7 +137,7 @@ do
     sed -i "s/":"/\t/g" $file
     python getcontacts_df.py -i $file -v $name -t $timestamp
 done
-for file in $out_p/*.getcontacts.csv
+for file in $date_output/*.getcontacts.csv
 do
     source ~/miniconda3/etc/profile.d/conda.sh
     source ~/miniconda3/bin/activate --stack ~/.conda/envs/appsquared
@@ -128,20 +148,6 @@ do
 done
 }
 function clean_up_for_tables {
-for file in $date_output/*.features.txt
-do
-    sed -i "s/SCORE: //g" $file
-    sed -i "s/relaxed_quick_//g" $file
-    sed -i "s/relaxed_//g" $file
-    sed -i "s/_0001//g" $file
-    sed -i "s/SEQUENCE: //g" $file
-    name=$(basename $file .features.txt)
-    ref=$(basename $ref_path _0001.pdb)
-    source ~/miniconda3/etc/profile.d/conda.sh
-    source ~/miniconda3/bin/activate --stack ~/.conda/envs/appsquared
-    conda activate --stack appsquared
-    python dataframe.py -i $file -r $ref -v $name -t $timestamp
-done
 for file in $date_output/*.res_breakdown.txt
 do
     sed -i "s/SCORE:  //g" $file
@@ -161,62 +167,17 @@ do
     sed -i "s/_0001//g" $file
     python3 tsv_to_parquet.py $file
 done
-for file in $date_output/*.features.tsv
-do
-    source ~/miniconda3/etc/profile.d/conda.sh
-    source ~/miniconda3/bin/activate --stack ~/.conda/envs/appsquared
-    conda activate --stack appsquared
-    sed -i "s/relaxed_quick_//g" $file
-    sed -i "s/relaxed_//g" $file
-    sed -i "s/_0001//g" $file
-    python3 tsv_to_parquet.py $file
-done
-}
-for file in $date_output/*.compsim.csv
-do
-    reference=$(basename "$ref_path" .pdb)
-    name=$(basename $file .compsim.csv)
-    timestamp=$(date +%Y-%m-%d)
-    sed -i "s/relaxed_quick_//g" $file
-    sed -i "s/relaxed_//g" $file
-    sed -i "s/_0001//g" $file
-    sed -i '1d' $file
-    sed -i "s/":"/\t/g" $file
-    sed -i "s/","/\t/g" $file
-    source ~/miniconda3/etc/profile.d/conda.sh
-    source ~/miniconda3/bin/activate --stack ~/.conda/envs/appsquared
-    conda activate --stack appsquared   
-    python3 per_res_rmsd_dataframe.py -i $file -r "166de14b969633ca1050f01418040896" -v $name -t $timestamp
-    python3 tsv_to_parquet.py $date_output/$name.per_res_rmsd.tsv
-done
-for file in $date_output/*.rmsd.compsim.csv
-do
-    reference=$(basename "$ref_path" .pdb)
-    name=$(basename $file .compsim.csv)
-    timestamp=$(date +%Y-%m-%d)
-    sed -i "s/relaxed_quick_//g" $file
-    sed -i "s/relaxed_//g" $file
-    sed -i '1d' $file
-    sed -i "s/" "//g" $file
-    sed -i "s/":"/\t/g" $file
-    sed -i "s/","/\t/g" $file
-    source ~/miniconda3/etc/profile.d/conda.sh
-    source ~/miniconda3/bin/activate --stack ~/.conda/envs/appsquared
-    conda activate --stack appsquared   
-    python3 per_res_rmsd_dataframe.py -i $file -r $reference -v $name -t $timestamp
-    python3 tsv_to_parquet.py $date_output/$name.per_res_rmsd.tsv
-done
 }
 
 if [ "$1" == "relax" ]; then
     #relax required for most pipeline applications
-    cp $out_p/*.pdb $out_p/unrelaxed
-    rm $out_p/unrelaxed/relaxed*
+    move_files
     echo $timestamp "OPTIMIZING STRUCTURES"
     run_relax
 fi
 
 if [ "$1" == "tables" ]; then
+    move_files
     echo $timestamp "GENERATING DATA FOR CDP TABLES"
     #Runs the pipeline in order
     echo $timestamp "Parsing raw pdb"
@@ -226,10 +187,8 @@ if [ "$1" == "tables" ]; then
     run_rosetta 
     echo $timestamp "Running Glycosylation Distance Calculator"
     run_glyc_dist 
-    echo $timestamp "Running GetContacts: Intermolecular Interactions"
-    run_get_contacts 
+    echo $timestamp "Running GetContacts: Intermolecular Interactions"run_get_contacts 
     run_get_contacts_clean 
     echo $timestamp "Cleaning up the tables for database entry"
     clean_up_for_tables
 fi
-
