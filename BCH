@@ -68,7 +68,7 @@ function run_relax {
 for file in $unrelaxed_dir/*.pdb
 do
     filename=$(basename "$file")
-    module load rosetta/3.13-cluster
+    #module load rosetta/3.13-cluster
     #mpirun -np 2 -nooversubscribe relax.default.linuxgccrelease -quick -ex1 -ex2 -gpu true -relax:minimize_bondlength_subset=3 -in:file:s $file --out:pdb -out:prefix relaxed_ -out:path:pdb $pdb_dir -relax:fast
     mpirun -np 3 -nooversubscribe relax.cxx11threadmpiserialization.linuxgccrelease -overwrite -quick -ex1 -ex2 -gpu true -device 0 -multithreading true -total_threads 8 -relax:minimize_bondlength_subset=3 -in:file:s $file --out:pdb -out:prefix relaxed_ -out:path:pdb $relaxed_dir -relax:fast
 done
@@ -79,7 +79,7 @@ for file in $relaxed_dir/relaxed_*.pdb
 #for file in $home/relaxed_*.pdb
 do
     filename=$(basename "$file" .pdb)
-    module load rosetta/3.13-cluster
+    #module load rosetta/3.13-cluster
     timestamp=$(date +%Y-%m-%d)
     score_jd2.default.linuxgccrelease -simple_metrics true -renumber_pdb -in:ignore_unrecognized_res -in:file:s $file -in:file:native $ref_path -out:file:scorefile $date_output/$filename.features.txt
     #mpirun score_jd2.mpi.linuxgccrelease -simple_metrics true -multithreading true -total_threads 4 -renumber_pdb -in:ignore_unrecognized_res -in:file:s $file -in:file:native $ref_path -out:file:scorefile $gwa_output/$filename.features.txt
@@ -181,8 +181,8 @@ if [ "$1" == "tables" ]; then
     echo $timestamp "GENERATING DATA FOR CDP TABLES"
     #Runs the pipeline in order
     echo $timestamp "Parsing raw pdb"
-    run_pdb_parse
-    pdb_parquet_gen
+    #run_pdb_parse
+    #pdb_parquet_gen
     echo $timestamp "Running Rosetta"
     run_rosetta 
     echo $timestamp "Running Glycosylation Distance Calculator"
