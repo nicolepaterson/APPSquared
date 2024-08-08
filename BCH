@@ -98,7 +98,7 @@ done
 }
 #computes the glycosylation distances for each site from pdb file
 function run_glyc_dist { 
-for file in $relaxed_str_dir/relaxed_*.pdb
+for file in $relaxed_dir/relaxed_*.pdb
 #for file in $home/relaxed_*.pdb
 do
     filename=$(basename $file)
