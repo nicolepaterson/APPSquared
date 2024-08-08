@@ -106,7 +106,7 @@ do
     source ~/miniconda3/etc/profile.d/conda.sh
     source ~/miniconda3/bin/activate --stack ~/.conda/envs/glyc
     conda activate --stack glyc
-    python glyc.py -i $date_output/$filename -v $name -t $timestamp -o $date_output/$name.ASA_glyc.csv
+    python glyc.py -i $file -v $name -t $timestamp -o $date_output/$name.ASA_glyc.csv
     sed -i "s/relaxed_quick_//g" $date_output/$name.ASA_glyc.csv
     sed -i "s/relaxed_//g" $date_output/$name.ASA_glyc.csv
     sed -i "s/_0001//g" $date_output/$name.ASA_glyc.csv
