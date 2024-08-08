@@ -70,7 +70,7 @@ do
     filename=$(basename "$file")
     #module load rosetta/3.13-cluster
     #mpirun -np 2 -nooversubscribe relax.default.linuxgccrelease -quick -ex1 -ex2 -gpu true -relax:minimize_bondlength_subset=3 -in:file:s $file --out:pdb -out:prefix relaxed_ -out:path:pdb $pdb_dir -relax:fast
-    mpirun -np 3 -nooversubscribe relax.cxx11threadmpiserialization.linuxgccrelease -overwrite -quick -ex1 -ex2 -gpu true -device 0 -multithreading true -total_threads 8 -relax:minimize_bondlength_subset=3 -in:file:s $file --out:pdb -out:prefix relaxed_ -out:path:pdb $relaxed_dir -relax:fast
+    mpirun -np 3 -nooversubscribe relax.cxx11threadmpiserialization.linuxgccrelease -overwrite -quick -ex1 -ex2 -gpu true -device 0 -multithreading true -total_threads 8 -relax:minimize_bondlength_subset=3 -in:file:s $file --out:pdb -out:prefix relaxed_quick_ -out:path:pdb $relaxed_dir -relax:fast
 done
 }
 #run Rosetta energy score for ddG, prep file for cdp upload
