@@ -134,7 +134,8 @@ do
     name=$(basename $file .static_contacts.csv)
     timestamp=$(date +%Y-%m-%d)
     sed -i '1d' $file
-    sed -i "s/":"/\t/g" $file
+    sed -i '1d' $file
+    sed -i 's/:/\t/g' $file
     python getcontacts_df.py -i $file -v $name -t $timestamp
 done
 for file in $date_output/*.getcontacts.csv
